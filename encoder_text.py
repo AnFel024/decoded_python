@@ -1,9 +1,19 @@
 import math
 
+import os
+import json
+import PIL.Image as Image
+
 from numbers_to_letter import number_to_letter
 
-def encode_text(a_string, base):
-    a_byte_array = bytearray(a_string, "utf8")
+def encode_text(a_string, base, is_image):
+    if is_image:
+        with open("img.png", "rb") as image:
+            image = image.read()
+            a_byte_array = bytearray(image)
+            #print(a_byte_array)
+    else:
+        a_byte_array = bytearray(a_string, "utf8")
     byte_list = ''
     #Obtiene los valores binarios despues de convertir la cadena de texto a una representacion en python.
     for byte in a_byte_array:
@@ -43,9 +53,14 @@ def encode_text(a_string, base):
 
     #Se muestran los resultados.
     print('*'*20)
-    print("Texto: ", a_string)
+    print(f"{'Imagen' if is_image else 'Texto'} ", a_string)
     print('*'*20)
     print('Codificado en base: ', base)
     print('*'*20)
-    print("Texto codificado: ", str_res)
+    print(f"{'Imagen' if is_image else 'Texto'} codificado: ", str_res)
     print('*'*20)
+
+    with open("./response.txt", "w") as outfile: 
+        json.dump(str_res, outfile)
+
+    return str_res

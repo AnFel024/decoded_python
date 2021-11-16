@@ -15,19 +15,27 @@ while ans:
     * MENU DE OPCIONES: *
     1. Codificar texto
     2. Decodificar texto
-    3. Cambiar base (actual: {base})
-    4. Salir
+    3. Codificar imagen.
+    4. Decodificar imagen.
+    5. Cambiar base (actual: {base})
+    6. Salir
     """)
     ans= input("¿Que le gustaria hacer?\n--> ") 
     if ans=="1": 
         print(f"\n Codificando texto: Ingrese el texto a codificar en base {base}:\n")
-        encode_text(input('--> '), base)
+        encode_text(input('--> '), base, False)
     elif ans=="2":
         print(f"\n Decodificando texto: Ingrese el texto a decodificar en base {base}:\n")
-        decode_text(input('--> '), base)
+        decode_text(input('--> '), base, False)
     elif ans=="3":
-        base= input('Nueva base--> ')
+        response_hex= encode_text("", base, True)
     elif ans=="4":
+        print(f"\n Decodificando imagen: Ingrese el texto a decodificar en base {base}:\n")
+        decode_text(response_hex, base, True)
+        ans= False
+    elif ans=="5":
+        base= input('Nueva base--> ')
+    elif ans=="6":
         print("\n Hasta luego. Happy codding!") 
         ans= False
     elif ans !="":
