@@ -1,24 +1,18 @@
 import math
 
-def number_to_letter(i):
-    str_response=""
-    if i<9:
-        str_response=str(i)
-
-    else:
-        from string import ascii_letters
-        str_response= ascii_letters[i-10]
-    
-    return str_response
+from numbers_to_letter import number_to_letter
 
 def encode_text(a_string, base):
     a_byte_array = bytearray(a_string, "utf8")
-
     byte_list = ''
-
     #Obtiene los valores binarios despues de convertir la cadena de texto a una representacion en python.
     for byte in a_byte_array:
-        binary_representation = str(bin(byte)).replace('b','')
+        binary_representation = str(bin(byte))[2:]
+        if len(binary_representation) < 8:
+            zeros= ''
+            for j in range(0, 8-len(binary_representation)):
+                zeros+= '0'
+            binary_representation= zeros + binary_representation
         byte_list+=binary_representation
 
     #Agrupa los resultados en un array del tamaño del exponente de la base.
@@ -41,7 +35,6 @@ def encode_text(a_string, base):
     for i in range(0,base):
         key=str(bin(i)).replace('0b','')
         base_32[key]= number_to_letter(i)
-
 
     #Se enlaza la clave binaria con el valor correspondiente para obtener el mensaje.
     str_res= ''
