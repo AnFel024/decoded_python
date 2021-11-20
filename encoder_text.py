@@ -24,6 +24,10 @@ def encode_text(a_string, base, is_image):
                 zeros+= '0'
             binary_representation= zeros + binary_representation
         byte_list+=binary_representation
+    
+    print(binary_representation)
+    print('*'*20)
+
 
     #Agrupa los resultados en un array del tamaño del exponente de la base.
     cont=0
@@ -32,7 +36,7 @@ def encode_text(a_string, base, is_image):
     for i in range(0,len(byte_list)):
         cont+=1
         str_append+= byte_list[i]
-        if (cont==math.log(base, 2)):
+        if (cont==math.log(int(base), 2)):
             convert_list.append(str_append)
             cont=0
             str_append= ''
@@ -40,11 +44,16 @@ def encode_text(a_string, base, is_image):
     if str_append != '':
         convert_list.append(str_append)
 
+    print(convert_list)
+
     #Se genera un diccionario para almacenar los valores de los caracteres en sus distintas bases.   
     base_32={}
-    for i in range(0,base):
+    for i in range(0,int(base)):
         key=str(bin(i)).replace('0b','')
         base_32[key]= number_to_letter(i)
+    
+    print(base_32)
+    print('*'*20)
 
     #Se enlaza la clave binaria con el valor correspondiente para obtener el mensaje.
     str_res= ''

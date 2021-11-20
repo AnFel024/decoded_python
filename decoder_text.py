@@ -17,7 +17,6 @@ def bitstring_to_bytes(s):
 
 def decode_text(encoded_string, input_base, is_image):
     if is_image:
-        print(input_base)
         if input_base==32:
             base= int(input_base)
             string_list = list(encoded_string)
@@ -48,11 +47,11 @@ def decode_text(encoded_string, input_base, is_image):
         
             hex_string= encoded_string
             image = Image.open(io.BytesIO(hex_string))
-            image.save('./image_hex.png')
+            image.save('./imaasdasdge_hex.png')
 
         hex_string= bytearray.fromhex(str(encoded_string))
         image = Image.open(io.BytesIO(hex_string))
-        image.save('./image_hex.png')
+        image.save('./imaasdasdge_hex.png')
 
     else:
         base= int(input_base)
@@ -72,12 +71,23 @@ def decode_text(encoded_string, input_base, is_image):
             base_32[key]= number_to_letter(i)
         
         inverted_dict = dict((y,x) for x,y in base_32.items())
-
+        #print(inverted_dict)
         bin_response= ""
 
-        for word in string_list:
-            bin_response+= inverted_dict[word]
-            print(inverted_dict[word])
+        for i in range(0, len(string_list)):
+            try:
+                if string_list[i-1] == '~':
+                    pass
+                key= string_list[i]
+                if string_list[i] == '~':
+                    key= string_list[i] + string_list[i +1]
+                
+                print(inverted_dict[key])
+                bin_response+= inverted_dict[key]
+            except:
+                pass
+            
+            #print(inverted_dict[word])
 
         #Agrupa los resultados en un array del tamaño del exponente de la base.
         cont=0

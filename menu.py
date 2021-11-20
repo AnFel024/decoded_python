@@ -3,8 +3,8 @@ from decoder_text import decode_text
 
 correct_base= False
 while not correct_base:
-    base= int(input('Ingrese una base para la codificación (16/32) '))
-    if (base== 16) or (base==32):
+    base= int(input('Ingrese una base para la codificación (16/32/64/128/256) '))
+    if (base== 16) or (base==32) or (base== 64) or (base==128) or (base== 256) :
         correct_base= True
 
 ans=True
@@ -31,8 +31,11 @@ while ans:
         response_hex= encode_text("", base, True)
     elif ans=="4":
         print(f"\n Decodificando imagen: Ingrese el texto a decodificar en base {base}:\n")
-        decode_text(response_hex, base, True)
-        ans= False
+        if base==16 or base==32:
+            respone_hex= encode_text("", 16, True)
+            decode_text(respone_hex, 16, True)
+        elif base==64 or base==128 or base==256:
+            decode_text(response_hex, base, True)
     elif ans=="5":
         base= input('Nueva base--> ')
     elif ans=="6":
@@ -40,3 +43,75 @@ while ans:
         ans= False
     elif ans !="":
         print("\n Verifique su entrada") 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
