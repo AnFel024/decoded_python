@@ -17,6 +17,8 @@ def bitstring_to_bytes(s):
 
 def decode_text(encoded_string, input_base, is_image):
     if is_image:
+        print("Ingreso 1:")
+        '''
         if input_base==32:
             base= int(input_base)
             string_list = list(encoded_string)
@@ -47,11 +49,12 @@ def decode_text(encoded_string, input_base, is_image):
         
             hex_string= encoded_string
             image = Image.open(io.BytesIO(hex_string))
-            image.save('./imaasdasdge_hex.png')
-
+            image.save('./imaasdasdge_bx_'+str(input_base)+'.png')
+        '''
+        print("ingreso 2")
         hex_string= bytearray.fromhex(str(encoded_string))
         image = Image.open(io.BytesIO(hex_string))
-        image.save('./imaasdasdge_hex.png')
+        image.save('./imaasdasdge_bx_'+str(input_base)+'.png')
 
     else:
         base= int(input_base)
@@ -60,6 +63,8 @@ def decode_text(encoded_string, input_base, is_image):
         base_2= int(math.log(base, 2))
         
         #Se genera un diccionario para almacenar los valores de los caracteres en sus distintas bases.   
+        print('*'*20)
+        print('Diccionario')
         base_32={}
         for i in range(0,base):
             key= str(bin(i))[2:]
@@ -68,24 +73,40 @@ def decode_text(encoded_string, input_base, is_image):
                 for j in range(0, base_2-len(key)):
                     zeros+= '0'
                 key= zeros + key
+            print(str(i)+" : " + number_to_letter(i))
             base_32[key]= number_to_letter(i)
         
         inverted_dict = dict((y,x) for x,y in base_32.items())
         #print(inverted_dict)
         bin_response= ""
-
+        print('*'*20)
+        #print(string_list)
+        print('*'*20)
+        print('Grupo de binario')
+        anterior=0
         for i in range(0, len(string_list)):
-            try:
-                if string_list[i-1] == '~':
-                    pass
-                key= string_list[i]
-                if string_list[i] == '~':
-                    key= string_list[i] + string_list[i +1]
-                
-                print(inverted_dict[key])
+            
+            if(string_list[i] == '}' or string_list[i] == '~'):
+                anterior=1
+            else:
+                if (anterior ==1 ):
+                    key= string_list[i-1] + string_list[i]
+                    anterior=0
+                else:
+                    key=string_list[i]
+                #print(inverted_dict[key])
                 bin_response+= inverted_dict[key]
-            except:
-                pass
+
+            #try:
+            #    if string_list[i-1] == '~':
+            #        pass
+            #    key= string_list[i]
+            #    if string_list[i] == '~':
+            #        key= string_list[i] + string_list[i +1]
+            #    print(inverted_dict[key])
+            #    bin_response+= inverted_dict[key]
+            #except:
+            #    pass
             
             #print(inverted_dict[word])
 
@@ -111,7 +132,7 @@ def decode_text(encoded_string, input_base, is_image):
         response= ""
         for binary_item in convert_list:
             response+= chr(int(binary_item, 2))
-
+        print('*'*20)
         #Se muestran los resultados.
         print('*'*20)
         print("Texto: ", encoded_string)
@@ -120,3 +141,4 @@ def decode_text(encoded_string, input_base, is_image):
         print('*'*20)
         print("Texto decifrado: ", response)
         print('*'*20)
+        return response

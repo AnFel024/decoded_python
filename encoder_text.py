@@ -13,7 +13,7 @@ def encode_text(a_string, base, is_image):
             a_byte_array = bytearray(image)
             #print(a_byte_array)
     else:
-        a_byte_array = bytearray(a_string, "utf8")
+        a_byte_array = bytearray(a_string, "latin1")
     byte_list = ''
     #Obtiene los valores binarios despues de convertir la cadena de texto a una representacion en python.
     for byte in a_byte_array:
@@ -24,10 +24,10 @@ def encode_text(a_string, base, is_image):
                 zeros+= '0'
             binary_representation= zeros + binary_representation
         byte_list+=binary_representation
-    
-    print(binary_representation)
-    print('*'*20)
 
+   
+    print('*'*20)
+    print('Grupo de binario')
 
     #Agrupa los resultados en un array del tamaño del exponente de la base.
     cont=0
@@ -35,23 +35,40 @@ def encode_text(a_string, base, is_image):
     str_append= ''
     for i in range(0,len(byte_list)):
         cont+=1
+        zeros= ''
         str_append+= byte_list[i]
         if (cont==math.log(int(base), 2)):
             convert_list.append(str_append)
+            if not is_image:
+                print(str_append)
             cont=0
             str_append= ''
 
     if str_append != '':
+        zeros+= ''
+        i= math.log(int(base), 2)-len(str_append)
+        #print(str(i))
+        #print (len(str_append))
+        if (i != 0):
+            for j in range(int(i)):
+                zeros+= '0'
+        str_append+= zeros
         convert_list.append(str_append)
+        print(str_append)
 
+    print('*'*20)
+    print('Binario Agrupados')
     print(convert_list)
-
     #Se genera un diccionario para almacenar los valores de los caracteres en sus distintas bases.   
+    print('*'*20)
+    print('Dicionario:')
     base_32={}
     for i in range(0,int(base)):
         key=str(bin(i)).replace('0b','')
+        print(str(i)+" : "+number_to_letter(i))
         base_32[key]= number_to_letter(i)
-    
+    print('*'*20)
+    print('Dicionario agrupado:')
     print(base_32)
     print('*'*20)
 

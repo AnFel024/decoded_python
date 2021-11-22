@@ -5,12 +5,12 @@ def number_to_letter(i):
 
     else:
         import string 
-        if (i<93):
+        if (i<91):
             str_response= string.printable[i]
-        elif (i>93) and (i<175):
-            str_response= string.printable[93] + string.printable[i-82]
-            """  ~ ª  """
+        elif (i>=91) and (i<173):
+            str_response= string.printable[92] + string.printable[i-81]
+            """  } ª  """
         else:
-            str_response= string.printable[92] + string.printable[i-165]
-    
+            str_response= string.printable[93] + string.printable[i-164]
+            """ ~ """
     return str_response

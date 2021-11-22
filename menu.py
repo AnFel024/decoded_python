@@ -8,6 +8,7 @@ while not correct_base:
         correct_base= True
 
 ans=True
+response_hex=""
 while ans:
     print (f"""
     Gracias por utilizar el programa. 
@@ -31,11 +32,15 @@ while ans:
         response_hex= encode_text("", base, True)
     elif ans=="4":
         print(f"\n Decodificando imagen: Ingrese el texto a decodificar en base {base}:\n")
+        #respone_hex= encode_text("", 16, True)
+        decode_text(response_hex, base, True)
+        '''
         if base==16 or base==32:
             respone_hex= encode_text("", 16, True)
-            decode_text(respone_hex, 16, True)
+            decode_text(respone_hex, base, True)
         elif base==64 or base==128 or base==256:
             decode_text(response_hex, base, True)
+        '''
     elif ans=="5":
         base= input('Nueva base--> ')
     elif ans=="6":
