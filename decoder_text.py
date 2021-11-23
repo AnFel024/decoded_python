@@ -1,11 +1,11 @@
-import math
+from encoder_text import encode_text
+from list_bin import convert_bin_to_list
 
-from numbers_to_letter import number_to_letter
+from datetime import datetime
 
-
-import os
 import io
 import PIL.Image as Image
+Image.LOAD_TRUNCATED_IMAGES = True
 
 def bitstring_to_bytes(s):
     v = int(s, 2)
@@ -17,128 +17,31 @@ def bitstring_to_bytes(s):
 
 def decode_text(encoded_string, input_base, is_image):
     if is_image:
-        print("Ingreso 1:")
-        '''
-        if input_base==32:
-            base= int(input_base)
-            string_list = list(encoded_string)
-
-            base_2= int(math.log(base, 2))
-            
-            #Se genera un diccionario para almacenar los valores de los caracteres en sus distintas bases.   
-            base_32={}
-            for i in range(0,base):
-                key= str(bin(i))[2:]
-                if len(key) < base_2:
-                    zeros= ''
-                    for j in range(0, base_2-len(key)):
-                        zeros+= '0'
-                    key= zeros + key
-                base_32[key]= number_to_letter(i)
-            
-            inverted_dict = dict((y,x) for x,y in base_32.items())
-
-            bin_response= ""
-
-            for word in string_list:
-                bin_response+= inverted_dict[word]
-
-            encoded_string= bitstring_to_bytes(bin_response)
-            print(input_base)
-            print(encoded_string)
+        response_list= convert_bin_to_list(encoded_string, input_base, is_image, False)
+        response_string= ''.join(response_list)
+        string_byte_array= encode_text(response_string, 16, False, True)
         
-            hex_string= encoded_string
-            image = Image.open(io.BytesIO(hex_string))
-            image.save('./imaasdasdge_bx_'+str(input_base)+'.png')
-        '''
-        print("ingreso 2")
-        hex_string= bytearray.fromhex(str(encoded_string))
+        hex_string= bytearray.fromhex(str(string_byte_array))
         image = Image.open(io.BytesIO(hex_string))
-        image.save('./imaasdasdge_bx_'+str(input_base)+'.png')
+        image.save('./decoded_image_bx_'+str(input_base)+'_hour_'+str(datetime.now().hour)+':'+str(datetime.now().minute)+'.png')
+
+        print("Imagen guardada")
 
     else:
         base= int(input_base)
-        string_list = list(encoded_string)
-
-        base_2= int(math.log(base, 2))
-        
-        #Se genera un diccionario para almacenar los valores de los caracteres en sus distintas bases.   
-        print('*'*20)
-        print('Diccionario')
-        base_32={}
-        for i in range(0,base):
-            key= str(bin(i))[2:]
-            if len(key) < base_2:
-                zeros= ''
-                for j in range(0, base_2-len(key)):
-                    zeros+= '0'
-                key= zeros + key
-            print(str(i)+" : " + number_to_letter(i))
-            base_32[key]= number_to_letter(i)
-        
-        inverted_dict = dict((y,x) for x,y in base_32.items())
-        #print(inverted_dict)
-        bin_response= ""
-        print('*'*20)
-        #print(string_list)
-        print('*'*20)
-        print('Grupo de binario')
-        anterior=0
-        for i in range(0, len(string_list)):
-            
-            if(string_list[i] == '}' or string_list[i] == '~'):
-                anterior=1
-            else:
-                if (anterior ==1 ):
-                    key= string_list[i-1] + string_list[i]
-                    anterior=0
-                else:
-                    key=string_list[i]
-                #print(inverted_dict[key])
-                bin_response+= inverted_dict[key]
-
-            #try:
-            #    if string_list[i-1] == '~':
-            #        pass
-            #    key= string_list[i]
-            #    if string_list[i] == '~':
-            #        key= string_list[i] + string_list[i +1]
-            #    print(inverted_dict[key])
-            #    bin_response+= inverted_dict[key]
-            #except:
-            #    pass
-            
-            #print(inverted_dict[word])
-
-        #Agrupa los resultados en un array del tamaño del exponente de la base.
-        cont=0
-        convert_list= []
-        str_append= ''
-        for i in range(0,len(bin_response)):
-            cont+=1
-            str_append+= bin_response[i]
-            if (cont==8):
-                convert_list.append(str_append)
-                cont=0
-                str_append= ''
-
-        if str_append != '':
-            zeros= ''
-            for j in range(0, 8-len(str_append)):
-                zeros+= '0'
-            str_append+= zeros
-            convert_list.append(str_append)
-        
+        convert_list= convert_bin_to_list(encoded_string, base, is_image, True)
         response= ""
         for binary_item in convert_list:
             response+= chr(int(binary_item, 2))
-        print('*'*20)
-        #Se muestran los resultados.
-        print('*'*20)
-        print("Texto: ", encoded_string)
-        print('*'*20)
-        print('Decodificado en base: ', base)
-        print('*'*20)
-        print("Texto decifrado: ", response)
-        print('*'*20)
+        if not is_image:
+            print('*'*20)
+            #Se muestran los resultados.
+            print('*'*20)
+            print("Texto: ", encoded_string)
+            print('*'*20)
+            print('Decodificado en base: ', base)
+            print('*'*20)
+            print("Texto decifrado: ", response)
+            print('*'*20)
+
         return response

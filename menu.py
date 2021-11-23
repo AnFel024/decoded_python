@@ -33,14 +33,12 @@ while ans:
     elif ans=="4":
         print(f"\n Decodificando imagen: Ingrese el texto a decodificar en base {base}:\n")
         #respone_hex= encode_text("", 16, True)
-        decode_text(response_hex, base, True)
-        '''
-        if base==16 or base==32:
-            respone_hex= encode_text("", 16, True)
-            decode_text(respone_hex, base, True)
-        elif base==64 or base==128 or base==256:
-            decode_text(response_hex, base, True)
-        '''
+        with open('./response.txt','r+') as myfile:
+            data = myfile.read()
+        read_data= data[(data.find(': ') + 2):]
+        #print(read_data==input('--> '))
+        #decode_text(input('--> '), base, True)
+        decode_text(read_data, base, True)
     elif ans=="5":
         base= input('Nueva base--> ')
     elif ans=="6":
@@ -48,75 +46,3 @@ while ans:
         ans= False
     elif ans !="":
         print("\n Verifique su entrada") 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
