@@ -1,7 +1,8 @@
 import math
 
-def convert_to_list(byte_list, base, is_image):
-    
+def convert_to_list(byte_list, input_base, is_image):
+    base= int(input_base)
+
     #Agrupa los resultados en un array del tamaño del exponente de la base.
     cont=0
     convert_list= []

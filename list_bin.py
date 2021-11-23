@@ -4,7 +4,8 @@ from numbers_to_letter import number_to_letter
 
 
 
-def convert_bin_to_list(encoded_string, base, is_image, return_16):
+def convert_bin_to_list(encoded_string, input_base, is_image, return_16):
+    base= int(input_base)
     string_list = list(encoded_string)
 
     base_2= int(math.log(base, 2))
