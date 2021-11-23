@@ -6,7 +6,8 @@ from convert_to_bin import convert_to_list
 
 from datetime import datetime
 
-def encode_text(a_string, base, is_image=False, return_16=False):
+def encode_text(a_string, input_base, is_image=False, return_16=False):
+    base= int(input_base)
     if is_image:
         with open("img.png", "rb") as image:
             image = image.read()
