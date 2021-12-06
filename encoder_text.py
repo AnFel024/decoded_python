@@ -8,7 +8,7 @@ from datetime import datetime
 
 def encode_text(a_string, input_base, is_image=False, return_16=False):
     base= int(input_base)
-    if is_image:
+    if is_image and not return_16:
         with open("img.png", "rb") as image:
             image = image.read()
             a_byte_array = bytearray(image)
@@ -58,19 +58,19 @@ def encode_text(a_string, input_base, is_image=False, return_16=False):
     for i in convert_list:
             str_res+= base_32[str(int(i))]
 
-    if is_image and not return_16:
-        #Se muestran los resultados.
-        print('*'*20)
-        print(f"{'Imagen' if is_image else 'Texto'} ", a_string)
-        print('*'*20)
-        print('Codificado en base: ', base)
-        print('*'*20)
-        print(f"{'Imagen' if is_image else 'Texto'} codificado: ", str_res)
-        print('*'*20)
+    #if is_image and not return_16:
+    #Se muestran los resultados.
+    print('*'*20)
+    print(f"{'Imagen' if is_image else 'Texto'} ", a_string)
+    print('*'*20)
+    print('Codificado en base: ', base)
+    print('*'*20)
+    print(f"{'Imagen' if is_image else 'Texto'} codificado: ", str_res)
+    print('*'*20)
 
-        with open("./response.txt", "w") as myfile: 
-            myfile.seek(0)
-            myfile.write(str(datetime.now())+': '+str_res)
-            myfile.truncate()
+    with open("./response.txt", "w") as myfile: 
+        myfile.seek(0)
+        myfile.write(str(datetime.now())+': '+str_res)
+        myfile.truncate()
 
     return str_res
